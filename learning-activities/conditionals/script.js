@@ -1,10 +1,8 @@
 const date = new Date()
-const months = []
-
-for (let i = 0; i < 12; i++) {
-  date.setMonth(i)
-  months.push(date.toLocaleString('en-US', { month: 'long' }))
-}
+const months = [...Array(12).keys()].map(n => {
+  date.setMonth(n)
+  return date.toLocaleString('en-US', { month: 'long' })
+})
 
 const select = document.getElementById('monthSelector')
 const list = document.querySelector('ul')
