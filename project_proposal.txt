@@ -1,0 +1,12 @@
+- Describe your project idea. 
+- What will be built? 
+- What will it do? 
+- What will be the source of your external data?
+
+A GitHub Profile evaluator and searcher.
+It will consist of a search bar to find GitHub accounts and give a brief look to it.
+
+Display its Profile photo, owner location, (age?), etc.
+Also display pie charts for each language used across his repos and how much are used.
+
+I will use GitHub API.
