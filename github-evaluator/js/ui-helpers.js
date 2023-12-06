@@ -3,23 +3,27 @@ import { getUserInfo, languagesTemplate, datediff, reposTemplate } from './data-
 const accountFinder = document.querySelector('#account-finder')
 const h1 = document.querySelector('h1')
 const accountData = document.getElementById('account-data')
+const backLink = document.getElementById('back')
 
-export async function dispatchUI() {
+async function dispatchUI() {
   const userInfo = await getUserInfo(sessionStorage.getItem('username'))
 
-  fadeIn()
-  accountCard(userInfo)
+  document.startViewTransition ? document.startViewTransition(() => fadeIn()) : fadeIn()
+  document.startViewTransition ? document.startViewTransition(() => accountCard(userInfo)) : accountCard(userInfo)
 }
 
 function fadeIn() {
+  reset()
   h1.classList.add('disappear')
   accountFinder.classList.add('move-up')
+  backLink.classList.remove('disappear')
 }
 
 function fadeOut() {
   reset()
   h1.classList.remove('disappear')
   accountFinder.classList.remove('move-up')
+  backLink.classList.add('disappear')
 }
 
 function reset() {
@@ -158,3 +162,5 @@ function linkSetUp(linkElement, text, url) {
   linkElement.textContent = text
   linkElement.innerHTML += ' <i class="fa-solid fa-arrow-up-right-from-square"></i>'
 }
+
+export { dispatchUI, fadeOut }

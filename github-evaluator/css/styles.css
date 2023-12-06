@@ -40,7 +40,7 @@ a:hover {
 
 #account-finder {
   text-align: center;
-  transition: transform 1s ease;
+  /* transition: transform 1s ease; */
 }
 
 h1 {
@@ -76,6 +76,13 @@ form {
   margin: 0 auto;
   padding-left: 3rem;
   font-size: 1.25rem;
+}
+
+#back {
+  position: absolute;
+  top: .75vh;
+  left: 20vw;
+  font-size: 2rem;
 }
 
 .card {

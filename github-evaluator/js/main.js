@@ -1,5 +1,5 @@
 import { storeUsername } from './storage.js'
-import { dispatchUI } from './ui-helpers.js'
+import { dispatchUI, fadeOut } from './ui-helpers.js'
 
 const form = document.querySelector('form')
 const username = document.querySelector('#username')
@@ -10,4 +10,9 @@ form.addEventListener('submit', event => {
   username.value = ''
 
   dispatchUI()
+})
+
+document.getElementById('back').addEventListener('click', event => {
+  event.preventDefault()
+  document.startViewTransition ? document.startViewTransition(() => fadeOut()) : fadeOut()
 })
