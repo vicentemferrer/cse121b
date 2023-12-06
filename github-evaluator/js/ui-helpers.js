@@ -153,7 +153,7 @@ function buildChart(languagesSummary) {
 
 function lastUpdateTemplate(date) {
   const lastUpdate = datediff(date)
-  return `Last update: ${(lastUpdate ? `${lastUpdate} ago` : 'Not available')}`
+  return `Last update: ${(lastUpdate ? `${lastUpdate} ago` : 'Recently')}`
 }
 
 function linkSetUp(linkElement, text, url) {
