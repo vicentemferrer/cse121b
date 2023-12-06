@@ -2,7 +2,7 @@ async function getData(url) {
   return fetch(url).then(res => res.json())
 }
 
-async function getUserInfo(username, { limit = 30 }) {
+async function getUserInfo(username, { limit = 15 } = { limit: 15 }) {
   const accountUrl = `https://api.github.com/users/${username}`
   const reposUrl = `https://api.github.com/users/${username}/repos`
 
@@ -12,7 +12,6 @@ async function getUserInfo(username, { limit = 30 }) {
     'name': '',
     'location': '',
     'bio': '',
-    'created_at': '',
     'updated_at': '',
     'html_url': ''
   }
@@ -24,8 +23,6 @@ async function getUserInfo(username, { limit = 30 }) {
     .then(async ([accountInfo, reposList]) => {
       Object.keys(userInfo).forEach(key => userInfo[key] = accountInfo.value[key])
 
-      console.log(reposList)
-
       reposList.value.sort((a, b) => {
         const dateA = new Date(a['updated_at'])
         const dateB = new Date(b['updated_at'])
@@ -34,6 +31,8 @@ async function getUserInfo(username, { limit = 30 }) {
         if (dateA > dateB) return -1
         return 0
       })
+
+      userInfo['repos'] = reposList.value.toSpliced(3)
 
       const languages = reposList.value.map(async ({ languages_url }, i) => {
         if (i < limit) {
@@ -64,4 +63,27 @@ function languagesTemplate(languages) {
   return languagesData
 }
 
-export { getUserInfo, languagesTemplate }
+function reposTemplate(repos) {
+  return repos.map(({ name, html_url, updated_at }) => ({ name, html_url, updated_at }))
+}
+
+function datediff(initDate, lastDate = new Date()) {
+  const DAYS_CONST = 1000 * 60 * 60 * 24
+  const date1 = new Date(initDate)
+  const date2 = new Date(lastDate)
+
+  const datediff = Math.floor(Math.abs(date2 - date1) / DAYS_CONST)
+
+  const diffInfo = {
+    year: Math.floor(datediff / 365),
+    month: Math.floor((datediff % 365) / 30),
+    day: (datediff % 365) % 30
+  }
+
+  return Object.entries(diffInfo).reduce((acc, [key, value]) => {
+    if (value > 0) return acc + `${value} ${key}/s `
+    return acc
+  }, '').trim()
+}
+
+export { getUserInfo, languagesTemplate, reposTemplate, datediff }
